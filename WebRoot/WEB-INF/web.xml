@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name></display-name>	
+  <filter>
+  	<filter-name>encodeFilter</filter-name>
+  	<filter-class>com.lb.base.filter.EncodeFilter</filter-class>
+  	<init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encodeFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- 使用原始servlet处理请求 -->
+  <servlet>
+  	<servlet-name>baseServlet</servlet-name>
+  	<servlet-class>com.lb.base.servlet.BaseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>baseServlet</servlet-name>
+  	<url-pattern>*.action</url-pattern>
+  </servlet-mapping><!-- 使用原始servlet处理请求 -->
+  <listener>
+  <listener-class>com.lb.base.listener.ServletContextListener</listener-class>
+  </listener>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <!-- 
+  	url-pattern详解 
+
+   l.以”/’开头和以”/*”结尾的是用来做路径映射的。
+
+   2.以前缀”*.”开头的是用来做扩展映射的。 
+
+   3. “/” 是用来定义default servlet映射的。 
+
+   4. 剩下的都是用来定义详细映射的。比如： /aa/bb/cc.action 
+
+   5.所以，为什么定义”/*.action”这样一个看起来很正常的匹配在启动tomcat时会报错？因为这个匹配即属于路径映射，也属于扩展映射，导致容器无法判断。
+
+   6.*.do的优先级别最低
+   -->
+</web-app>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="lb-base"
+  id="myeclipse.1449107462708"
+  context-root="/lb-base"
+  j2ee-spec="5.0"
+  archive="lb-base.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
