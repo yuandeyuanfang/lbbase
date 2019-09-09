@@ -10,6 +10,8 @@ public interface KnowledgeDao {
 
 	public List<Knowledge> query(Map map, Page page);
 	
+	public List<Knowledge> queryPage(Knowledge knowledge, Page page);
+	
 	public int add(Knowledge knowledge);
 	
 	public int update(Knowledge knowledge);
@@ -19,5 +21,6 @@ public interface KnowledgeDao {
 	public Knowledge findById(Long id);
 
 	public int queryCount(Map map);
+
 	
 }

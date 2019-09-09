@@ -6,6 +6,11 @@
 		<property name="knowledgeService" ref="knowledgeService" />
 	</bean>
 	
-	<bean id="knowledgeService" class="com.lb.base.service.KnowledgeServiceImpl" ></bean>
+	<bean id="knowledgeService" class="com.lb.base.service.KnowledgeServiceImpl" >
+		<property name="knowledgeDao" ref="knowledgeDao" />
+	</bean>
+	
+	<bean id="knowledgeDao" class="com.lb.base.dao.KnowledgeDaoImpl" parent="_baseSqlMapClientTarget" >
+	</bean>
 	
 </beans>

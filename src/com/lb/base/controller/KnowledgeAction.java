@@ -28,7 +28,9 @@ public class KnowledgeAction extends ActionSupport{
 		page = Page.getPage(req);
 		page.setTotalRecord(knowledgeService.queryCount(map));
 		page.setActionUrl(req.getContextPath()+"/knowledge/query.action");
-		knowledgeList = knowledgeService.query(map,page);
+//		knowledgeList = knowledgeService.query(map,page);
+		Knowledge knowledge = new Knowledge();
+		knowledgeList = knowledgeService.queryPage(knowledge, page);
 		req.setAttribute("knowledgeList", knowledgeList);
 		req.setAttribute("pageHtml", page.getPageHelper());
 		String returnUrl = "/knowledge/knowledgeQuery.jsp";

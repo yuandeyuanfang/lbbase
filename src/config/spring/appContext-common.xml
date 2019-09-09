@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>	
+	<!-- 解析properties属性文件用于之后使用 -->
+	<bean id="ResourceConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:server.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+    <property name="targetDataSource">
+      <!-- 
+      <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <property name="logAbandoned" value="${jdbc.logAbandoned}"/>
+        <property name="removeAbandoned" value="${jdbc.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"/>
+        <property name="maxWait" value="${jdbc.maxWait}"/>
+      </bean>
+       -->
+      <!-- 非连接池 -->
+      <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	  </bean>
+	 
+    </property>
+  </bean>
+
+	<!-- 配置ibatis -->	
+  <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation">
+      <value>classpath:/config/sqlmap/sqlMapConfig-oracle.xml</value>
+    </property>
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+  
+  <bean id="_baseSqlMapClientTarget" abstract="true">
+    <property name="sqlMapClient">
+      <ref bean="sqlMapClient" />
+    </property>
+  </bean>
+	
+</beans>

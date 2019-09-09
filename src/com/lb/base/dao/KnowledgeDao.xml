@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.lb.base.dao.KnowledgeDao">
+	
+	<typeAlias alias="Knowledge" type="com.lb.base.entity.Knowledge"/>
+	
+	<!-- <resultMap class="Knowledge" id="KnowledgeResult">
+		<result property="custShortName" column="custShortName"/>
+		<result property="customerCode" column="customerCode"/>
+		<result property="linkMan" column="linkMan"/>
+		<result property="linkTel" column="linkTel"/>
+		<result property="address" column="address"/>
+		<result property="blanceMax" column="money"/>
+		<result property="blanceDate" column="blanceDate"/>
+	</resultMap> -->
+	
+	<select id="queryPage" parameterClass="map" resultClass="Knowledge">
+		select * from (select rownum rn, tb.* from (
+			select t.*,d.datatypename  from KNOWLEDGEPOINT t 
+			left join DATADICTIONARY d on t.pointtype = d.id
+			<dynamic prepend="where">
+				<isNotEmpty prepend=" and " property="orderBill.blanceStatus">o.blanceStatus=#orderBill.blanceStatus#</isNotEmpty>
+			</dynamic>
+			 order by t.id desc
+			) tb) where rn &gt; #page.begin# and rn &lt; #page.end#
+	</select>
+	
+</sqlMap>

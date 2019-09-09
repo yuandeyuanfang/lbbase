@@ -1,30 +1,42 @@
 package com.lb.base.dao;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.lb.base.entity.Knowledge;
 import com.lb.base.system.JdbcUtil;
 import com.lb.base.util.Page;
 
-public class KnowledgeDaoImpl implements KnowledgeDao{
+public class KnowledgeDaoImpl extends SqlMapClientDaoSupport implements KnowledgeDao{
+	private static String namespace = "com.lb.base.dao.KnowledgeDao.";
 	
 	private Connection con = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs =null;
 
+	public List<Knowledge> queryPage(Knowledge knowledge, Page page) {
+		List<Knowledge> knowledgeArr = new ArrayList();
+		Map map = new HashMap();
+		map.put("knowledge",knowledge);
+		map.put("page",page);
+		try {
+			knowledgeArr = getSqlMapClientTemplate().queryForList(namespace + "queryPage", map);
+		} catch (DataAccessException e) {
+			logger.error("DataAccessException:",e);
+		}
+		return knowledgeArr;
+	}
+	
 	public List<Knowledge> query(Map map, Page page) {
 		getConnection();
 		List<Knowledge> list = new ArrayList<Knowledge>();
