@@ -228,6 +228,8 @@ public class FileHandle {
 		}
 	}
 	
+	
+	
 	public static void main(String[] args) {
 		FileHandle fileHandle = new FileHandle();
 		fileHandle.compareFolder("D:\\gits-system","E:\\gits-system");

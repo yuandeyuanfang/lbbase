@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.lb.base.controller.KnowledgeAction;
 
 public class BaseServlet extends HttpServlet{
@@ -15,21 +17,23 @@ public class BaseServlet extends HttpServlet{
 	 * 处理所有请求，根据不同请求调用对应Action处理
 	 */
 	private static final long serialVersionUID = 1L;
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	public void doGet(HttpServletRequest req, HttpServletResponse response) {
-		System.out.println("BaseServlet doGet");
+		logger.info("BaseServlet doGet");
 		service(req,response);
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse response) {
-		System.out.println("BaseServlet doPost");
+		logger.info("BaseServlet doPost");
 		service(req,response);
 	}
 	
 	public void service(HttpServletRequest req, HttpServletResponse response) {
+		logger.info("BaseServlet service");
 		String url = pareRequestURI(req);
 		try {
-			if(url.equals("/jsp/invalidPage.jsp") || url.equals("/jsp/errorPage.jsp")){
+			if(url.equals("/invalidPage.jsp") || url.equals("/errorPage.jsp")){
 			}else if(url.startsWith("knowledge/")){
 				url =  url.replaceFirst("knowledge/", "");
 				if(url.equals("query.action") || url.startsWith("query.action?") ){
@@ -53,7 +57,7 @@ public class BaseServlet extends HttpServlet{
 					setKnowledgeAction();
 					knowledgeAction.remove(req, response);
 				}else {
-					String returnUrl = "/jsp/invalidPage.jsp";
+					String returnUrl = "/invalidPage.jsp";
 					try {
 						req.getRequestDispatcher(returnUrl).forward(req, response);
 					} catch (ServletException e) {
@@ -63,7 +67,7 @@ public class BaseServlet extends HttpServlet{
 					}
 				}
 			}else{
-				String returnUrl = "/jsp/invalidPage.jsp";//请求地址无效，跳转到无效地址页面
+				String returnUrl = "/invalidPage.jsp";//请求地址无效，跳转到无效地址页面
 				try {
 					req.getRequestDispatcher(returnUrl).forward(req, response);
 				} catch (ServletException e) {
@@ -73,7 +77,8 @@ public class BaseServlet extends HttpServlet{
 				}
 			}
 		} catch (Exception e) {
-			String returnUrl = "/jsp/errorPage.jsp";//程序出错，跳转到错误页面
+			logger.error("Error Stack: ",e);
+			String returnUrl = "/errorPage.jsp";//程序出错，跳转到错误页面
 			try {
 				req.getRequestDispatcher(returnUrl).forward(req, response);
 			} catch (ServletException e1) {
