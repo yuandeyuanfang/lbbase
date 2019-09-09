@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>	
+	<bean id="knowledgeAction" class="com.lb.base.controller.KnowledgeAction" >
+		<property name="knowledgeService" ref="knowledgeService" />
+	</bean>
+	
+	<bean id="knowledgeService" class="com.lb.base.service.KnowledgeServiceImpl" ></bean>
+	
+</beans>

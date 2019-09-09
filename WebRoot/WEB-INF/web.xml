@@ -5,6 +5,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <display-name></display-name>	
+  
+  <!-- 过滤器统一处理字符集 -->
   <filter>
   	<filter-name>encodeFilter</filter-name>
   	<filter-class>com.lb.base.filter.EncodeFilter</filter-class>
@@ -17,6 +19,7 @@
   	<filter-name>encodeFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  
   <!-- 使用原始servlet处理请求 -->
   <servlet>
   	<servlet-name>baseServlet</servlet-name>
@@ -25,10 +28,14 @@
   <servlet-mapping>
   	<servlet-name>baseServlet</servlet-name>
   	<url-pattern>*.action</url-pattern>
-  </servlet-mapping><!-- 使用原始servlet处理请求 -->
+  </servlet-mapping>
+  
+  <!-- 监听器 -->
   <listener>
   <listener-class>com.lb.base.listener.ServletContextListener</listener-class>
   </listener>
+  
+  <!-- 默认主页 -->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -47,4 +54,20 @@
 
    6.*.do的优先级别最低
    -->
+   
+  <!-- 监听器，加载Spring配置文件 -->
+  <listener> 
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+  </listener>
+  <!--
+    - 定义了spring应用上下文xml配置文件的地址
+    - 用于ContextLoaderServlet.
+    -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath*:/config/spring/appContext-*.xml
+    </param-value>
+  </context-param>  
+   
 </web-app>

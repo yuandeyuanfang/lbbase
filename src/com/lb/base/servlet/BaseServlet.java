@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.lb.base.controller.KnowledgeAction;
 
@@ -104,8 +106,14 @@ public class BaseServlet extends HttpServlet{
 	//根据不同请求调用相应action里面的方法
 	private KnowledgeAction knowledgeAction;
 	private void setKnowledgeAction(){
-		if(knowledgeAction == null){
-			knowledgeAction = new KnowledgeAction();
+		if(knowledgeAction == null ){
+			WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();//从spring上下文中获取bean实例
+			Object knowledgeObj = wac.getBean("knowledgeAction");
+			if(knowledgeObj != null){
+				knowledgeAction = (KnowledgeAction) knowledgeObj;
+			}
 		}
 	}
+	
+	
 }

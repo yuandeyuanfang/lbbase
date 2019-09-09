@@ -18,7 +18,7 @@ public class KnowledgeAction {
 	private KnowledgeService knowledgeService;
 	
 	public void query(HttpServletRequest req, HttpServletResponse response) throws Exception{
-		setKnowledgeService();
+		//setKnowledgeService();获取service实例，不使用spring时用到
 		Map map = new HashMap();
 		Page page = Page.getPage(req);
 		page.setTotalRecord(knowledgeService.queryCount(map));
@@ -52,7 +52,7 @@ public class KnowledgeAction {
 	}
 	
 	public void addPost(HttpServletRequest req, HttpServletResponse response) throws Exception{
-		setKnowledgeService();
+		//setKnowledgeService();获取service实例，不使用spring时用到
 		Knowledge knowledge = new Knowledge();
 		knowledge = knowledge.getKnowledge(req);
 		if(knowledgeService.add(knowledge)!=1){
@@ -62,7 +62,7 @@ public class KnowledgeAction {
 	}
 	
 	public void updateGet(HttpServletRequest req, HttpServletResponse response) throws Exception{
-		setKnowledgeService();
+		//setKnowledgeService();获取service实例，不使用spring时用到
 		Knowledge knowledge = knowledgeService.findById(Long.parseLong(req.getParameter("id")));
 		req.setAttribute("knowledge", knowledge);
 		List<DataDictionary> dataDictionaryList = new ArrayList<DataDictionary>();
@@ -86,7 +86,7 @@ public class KnowledgeAction {
 	}
 	
 	public void updatePost(HttpServletRequest req, HttpServletResponse response) throws Exception{
-		setKnowledgeService();
+		//setKnowledgeService();获取service实例，不使用spring时用到
 		Knowledge knowledge = new Knowledge();
 		knowledge = knowledge.getKnowledge(req);
 		if(knowledgeService.update(knowledge)!=1){
@@ -96,19 +96,25 @@ public class KnowledgeAction {
 	}
 	
 	public void remove(HttpServletRequest req, HttpServletResponse response) throws Exception{
-		setKnowledgeService();
+		//setKnowledgeService();获取service实例，不使用spring时用到
 		if(knowledgeService.remove(Long.parseLong(req.getParameter("id")))!=1){
 			throw new Exception();
 		}
 		response.sendRedirect(req.getContextPath()+"/knowledge/query.action");
 	}
+
+	//spring绑定依赖关系
+	public void setKnowledgeService(KnowledgeService knowledgeService) {
+		this.knowledgeService = knowledgeService;
+	}
 	
 	/**
-	 * 获取service实例
+	 * 获取service实例，不使用spring时用到
 	 */
-	private void setKnowledgeService(){
-		if(knowledgeService==null){
-			this.knowledgeService = new KnowledgeServiceImpl();
-		}
-	}
+//	private void setKnowledgeService(){
+//		if(knowledgeService==null){
+//			this.knowledgeService = new KnowledgeServiceImpl();
+//		}
+//	}
+	
 }
