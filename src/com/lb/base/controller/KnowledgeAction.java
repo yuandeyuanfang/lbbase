@@ -7,27 +7,43 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.lb.base.entity.DataDictionary;
 import com.lb.base.entity.Knowledge;
 import com.lb.base.service.KnowledgeService;
 import com.lb.base.service.KnowledgeServiceImpl;
 import com.lb.base.util.Page;
+import com.opensymphony.xwork2.ActionSupport;
 
-public class KnowledgeAction {
+public class KnowledgeAction extends ActionSupport{
 	
 	private KnowledgeService knowledgeService;
+	private List<Knowledge> knowledgeList;
+	protected Page page;
 	
 	public void query(HttpServletRequest req, HttpServletResponse response) throws Exception{
 		//setKnowledgeService();获取service实例，不使用spring时用到
 		Map map = new HashMap();
-		Page page = Page.getPage(req);
+		page = Page.getPage(req);
 		page.setTotalRecord(knowledgeService.queryCount(map));
 		page.setActionUrl(req.getContextPath()+"/knowledge/query.action");
-		List<Knowledge> knowledgeList = knowledgeService.query(map,page);
+		knowledgeList = knowledgeService.query(map,page);
 		req.setAttribute("knowledgeList", knowledgeList);
 		req.setAttribute("pageHtml", page.getPageHelper());
 		String returnUrl = "/knowledge/knowledgeQuery.jsp";
 		req.getRequestDispatcher(returnUrl).forward(req, response);//转发方式可以访问WEB-INF文件夹下的页面
+	}
+	
+	public String queryStruts(){
+		if(page == null) {
+			page = new Page();
+		}
+		Map map = new HashMap();
+		page.setTotalRecord(knowledgeService.queryCount(map));
+		page.setActionUrl(ServletActionContext.getRequest().getContextPath()+"/knowledge/query.do");
+		knowledgeList = knowledgeService.query(map,page);
+		return SUCCESS;
 	}
 	
 	public void addGet(HttpServletRequest req, HttpServletResponse response) throws Exception{
@@ -106,6 +122,22 @@ public class KnowledgeAction {
 	//spring绑定依赖关系
 	public void setKnowledgeService(KnowledgeService knowledgeService) {
 		this.knowledgeService = knowledgeService;
+	}
+
+	public List<Knowledge> getKnowledgeList() {
+		return knowledgeList;
+	}
+
+	public void setKnowledgeList(List<Knowledge> knowledgeList) {
+		this.knowledgeList = knowledgeList;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 	
 	/**

@@ -21,3 +21,10 @@
 	"PICTURE" BLOB, 
 	"ARTICLE" CLOB, 
 	 CONSTRAINT "PK_KNOWLEDGEPOINT" PRIMARY KEY ("ID"));
+	 
+create sequence S_KNOWLEDGEPOINT_ID
+minvalue 1000
+maxvalue 999999999999999999999999999
+start with 1000
+increment by 1
+cache 20;

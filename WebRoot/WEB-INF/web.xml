@@ -69,5 +69,30 @@
       classpath*:/config/spring/appContext-*.xml
     </param-value>
   </context-param>  
+  
+  <!-- 获取应用部署在WEB容器中的基准Url -->
+  <filter>
+    <filter-name>struts-cleanup</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
+	</filter>
+  <!-- 
+    - 采用struts2,struts2的Filter
+    -->
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>
+      org.apache.struts2.dispatcher.FilterDispatcher
+    </filter-class>
+  </filter>
+  <!-- 拦截任何URL，以期在第一时间获取基准URL -->
+  <filter-mapping>
+    <filter-name>struts-cleanup</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- struts2处理的URL配置,默认处理.do结尾的请求 -->
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
    
 </web-app>

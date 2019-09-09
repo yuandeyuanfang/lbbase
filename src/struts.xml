@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+
+<xwork>
+  <include file="struts-default.xml" />
+  
+  <!-- <package name="basic" extends="json-default">
+  	<interceptors>
+    	<interceptor class="com.zjws.interceptor.AuthorityInterceptor" name="authorityInterceptor">
+    		<param name="excludeAction">loginForm,nonAuth</param>
+    	</interceptor>
+		<interceptor class="com.zjws.interceptor.ExceptionInterceptor" name="exceptionInterceptor"/>
+		<interceptor-stack name="authorityStack">
+        	<interceptor-ref name="defaultStack"/>
+        	<interceptor-ref name="authorityInterceptor"/>
+        	<interceptor-ref name="exceptionInterceptor"/>
+    	</interceptor-stack>
+   	</interceptors>
+   	
+    <default-interceptor-ref name="authorityStack"/>
+    
+    <global-results>
+      <result name="login">/login.jsp</result>
+      <result name="noPurview">/noPurview.jsp</result>
+      <result name="error">/error.jsp</result>
+    </global-results>
+    
+    <global-exception-mappings>
+    	<exception-mapping result="error" exception="java.lang.Throwable"></exception-mapping>
+    </global-exception-mappings>
+    
+    <action name="loginForm" class="com.zjws.system.action.LoginAction">
+    	<result>/index1.jsp</result>
+    	<result name="leader">/leader/leaderIndex.jsp</result>
+    	<result name="input">/login.jsp</result>
+    	<result name="redirect" type="redirect">${redirectUrl}</result>
+    </action>
+  </package> -->
+  
+  <include file="config/struts/struts_common.xml"/>
+</xwork>

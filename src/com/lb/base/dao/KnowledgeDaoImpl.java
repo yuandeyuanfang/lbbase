@@ -73,7 +73,7 @@ public class KnowledgeDaoImpl implements KnowledgeDao{
 	public int add(Knowledge knowledge) {
 		getConnection();
 		int num = 0;
-		String sql = "insert into KNOWLEDGEPOINT(id,name,menu,pageLink,javaPath,pointType,picture,article) values(KNOWLEDGEPOINT_ID.NEXTVAL,?,?,?,?,?,?,?)";
+		String sql = "insert into KNOWLEDGEPOINT(id,name,menu,pageLink,javaPath,pointType,picture,article) values(S_KNOWLEDGEPOINT_ID.NEXTVAL,?,?,?,?,?,?,?)";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setString(1, knowledge.getName());

@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -21,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <%=path%> <%=basePath%><br>
+  	<a href="http://127.0.0.1:8080/lb-base/knowledge/query.action">使用原始servlet处理请求 http://127.0.0.1:8080/lb-base/knowledge/query.action</a>
+  	<br><br>
+    <a href="http://127.0.0.1:8080/lb-base/knowledge/query.do">使用struts2处理请求,默认处理.do结尾的请求 http://127.0.0.1:8080/lb-base/knowledge/query.do</a>
   </body>
 </html>
