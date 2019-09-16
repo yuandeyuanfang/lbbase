@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lb.base.dao.KnowledgeDaoMybatis">
+
+	<!-- <resultMap class="Knowledge" id="KnowledgeResult">
+		<result property="custShortName" column="custShortName"/>
+		<result property="customerCode" column="customerCode"/>
+		<result property="linkMan" column="linkMan"/>
+		<result property="linkTel" column="linkTel"/>
+		<result property="address" column="address"/>
+		<result property="blanceMax" column="money"/>
+		<result property="blanceDate" column="blanceDate"/>
+	</resultMap> -->
+	
+	<select id="queryPage" parameterType="map" resultType="com.lb.base.entity.Knowledge">
+		select * from (select rownum rn, tb.* from (
+			select t.*,d.datatypename  from KNOWLEDGEPOINT t 
+			left join DATADICTIONARY d on t.pointtype = d.id
+			<where>
+				<if test="knowledge.name != null">
+			t.name=#{knowledge.name}
+		</if>
+			</where>
+			 order by t.id desc
+			) tb) where rn &gt; #{page.begin} and rn &lt; #{page.end}
+	</select>
+
+	
+</mapper> 

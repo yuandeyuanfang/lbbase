@@ -42,7 +42,7 @@
   </bean>
 
 	<!-- 配置ibatis -->	
-  <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+  <!-- <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
     <property name="configLocation">
       <value>classpath:/config/sqlmap/sqlMapConfig-oracle.xml</value>
     </property>
@@ -53,6 +53,21 @@
     <property name="sqlMapClient">
       <ref bean="sqlMapClient" />
     </property>
-  </bean>
+  </bean> -->
+  
+  <!-- mybatis配置 sessionFactory配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml" />
+		<!-- 显式指定Mapper文件位置 -->
+		<property name="mapperLocations" value="classpath*:config/mybatis/mapper/**/*.xml" />
+		<property name="typeAliasesPackage" value="entity"/>
+	</bean>
+	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- basepackage 多个用逗号分开 -->
+		<property name="basePackage" value="com.lb.base" />
+		<property name="annotationClass" value="com.framework.orm.mybatis.mapper.MyBatisAnnotation"/>
+	</bean>
 	
 </beans>
